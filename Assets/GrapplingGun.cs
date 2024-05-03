@@ -22,7 +22,7 @@ public class GrapplingGun : MonoBehaviour
 
     public GameObject Hook;
     //Hur lång man kan sjuta ut grapplen
-    private float maxDistance = 180f;
+    private float maxDistance = 250f;
 
     private SpringJoint joint;
 
@@ -73,18 +73,19 @@ public class GrapplingGun : MonoBehaviour
     {
 
 
-
+        //Vad som händer när vi träffar en Raycast
         RaycastHit hit;
         if (Physics.Raycast(Camera.position, Camera.forward, out hit, maxDistance))
         {
+            //Springjoint ändringa
             grapplePoint = hit.point;
             joint = capsule.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = grapplePoint;
 
-
+            //Kollar hur långt det är ifrån spelaren och grapple pointen
             float distanceFromPoint = Vector3.Distance(capsule.position, grapplePoint);
-
+            // Hur spingjointen ökas och minksas i längd under startgrapple
             joint.maxDistance = distanceFromPoint * 1f;
             joint.minDistance = distanceFromPoint * 0.25f;
 
@@ -111,12 +112,6 @@ public class GrapplingGun : MonoBehaviour
         lr.positionCount = 0;
         Destroy(joint);
         Hook.SetActive(true);
-
-        
-
-
-        //movement här
-        //skapa referens till "RB"
 
     }
 
